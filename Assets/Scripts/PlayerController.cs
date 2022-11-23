@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    //floats
     [SerializeField]
     private float walkSpeed;
     [SerializeField]
@@ -11,16 +12,21 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float gRadius;
     private float horizontal;
-
+    //bools
     private bool isFacingRight = true;
-
+    public bool timeFrozen = false;
+    private bool timeFreezable = true;
+    //Rigidbodies
     private Rigidbody2D playerRb;
-
+    //Transforms
     [SerializeField]
     private Transform groundCheck;
-
+    //LayerMasks
     [SerializeField]
     private LayerMask groundLayer;
+    //GameObjects
+    [SerializeField]
+    private GameObject freezeEffect;
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +48,10 @@ public class PlayerController : MonoBehaviour
             playerRb.velocity = new Vector2(playerRb.velocity.x, playerRb.velocity.y * 0.5f);
         }
 
+        if(Input.GetKeyDown(KeyCode.E) && timeFreezable == true)
+        {
+            StartCoroutine(TimeFreeze());
+        }
         Flip();
     }
     void FixedUpdate()
@@ -63,5 +73,23 @@ public class PlayerController : MonoBehaviour
             localScale.x *= -1f;
             transform.localScale = localScale;
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(groundCheck.position, gRadius);
+    }
+
+    IEnumerator TimeFreeze()
+    {
+        timeFreezable = false;
+        timeFrozen = true;
+        freezeEffect.SetActive(true);
+        yield return new WaitForSeconds(5);
+        timeFrozen = false;
+        freezeEffect.SetActive(false);
+        yield return new WaitForSeconds(10);
+        timeFreezable = true;
     }
 }
