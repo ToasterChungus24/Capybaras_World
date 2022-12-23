@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -27,11 +28,16 @@ public class PlayerController : MonoBehaviour
     //GameObjects
     [SerializeField]
     private GameObject freezeEffect;
-
-    // Start is called before the first frame update
-    void Start()
+    //Vectors
+    Vector2 move;
+    //Controls
+    PlayerControls controller;
+    private void Awake()
     {
         playerRb = GetComponent<Rigidbody2D>();
+        controller = new PlayerControls();
+
+        
     }
 
     // Update is called once per frame

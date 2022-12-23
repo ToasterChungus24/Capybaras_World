@@ -13,23 +13,28 @@ public class BackForth : MonoBehaviour
 
     private bool atPointB = true;
 
+    [SerializeField]
+    PlayerController playerControllerScript;
     void Update()
     {
-        if (atPointB == true)
+        if (playerControllerScript.timeFrozen == false)
         {
-            transform.position = Vector3.MoveTowards(transform.position, pointA.position, speed * Time.deltaTime);
-        }
-        if (atPointB == false)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, pointB.position, speed * Time.deltaTime);
-        }
-        if(transform.position == pointB.position)
-        {
-            atPointB = true;
-        }
-        if (transform.position == pointA.position)
-        {
-            atPointB = false;
+            if (atPointB == true)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, pointA.position, speed * Time.deltaTime);
+            }
+            if (atPointB == false)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, pointB.position, speed * Time.deltaTime);
+            }
+            if (transform.position == pointB.position)
+            {
+                atPointB = true;
+            }
+            if (transform.position == pointA.position)
+            {
+                atPointB = false;
+            }
         }
     } 
 }
